@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLES IF EXISTS "user",
+DROP TABLE IF EXISTS "user",
 "smoked",
 "day",
 "month",

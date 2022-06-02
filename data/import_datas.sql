@@ -3,10 +3,11 @@ BEGIN;
 INSERT INTO
   "year" ("year")
 VALUES
-  (2022, 2023);
+  (2022),
+  (2023);
 
 INSERT INTO
-  "month" ("month")
+  "month" ("month", "year_id")
 VALUES
   ('Janvier', 1),
   ('Février', 1),
@@ -34,7 +35,7 @@ VALUES
   ('Décembre', 2);
 
 INSERT INTO
-  "day" ("day")
+  "day" ("day", "month_id")
 VALUES
   (1, 1),
   (2, 1),
