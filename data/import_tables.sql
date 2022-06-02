@@ -19,18 +19,6 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 -- -----------------------------------------------------
--- Table "smoked"
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "smoked" (
-  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "quantity" INT,
-  "user_id" INT REFERENCES "user" ("id"),
-  "day_id" INT REFERENCES "day" ("id"),
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
--- -----------------------------------------------------
 -- Table "year"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "year" (
@@ -58,6 +46,18 @@ CREATE TABLE IF NOT EXISTS "day" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "day" INT,
   "month_id" INT REFERENCES "month" ("id"),
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+-- -----------------------------------------------------
+-- Table "smoked"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "smoked" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "quantity" INT,
+  "user_id" INT REFERENCES "user" ("id"),
+  "day_id" INT REFERENCES "day" ("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
