@@ -1,22 +1,20 @@
-const { User } = require('../models');
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
-const generatedAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
-};
+const generatedAccessToken = (user) => jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
 
 module.exports = {
+  // eslint-disable-next-line consistent-return
   getAll: async (_, res) => {
     try {
       const users = await User.findAll();
-      console.log("users", users)
       return res.status(200).json(users);
     } catch (error) {
       res.status(400).json({
         data: [],
-        error: error.message
+        error: error.message,
       });
     }
   },
@@ -35,7 +33,7 @@ module.exports = {
       if (pseudoIsTaken) {
         return res.status(400).json({
           data: [],
-          error: "Le pseudo est déjà utilisé"
+          error: 'Le pseudo est déjà utilisé',
         });
       }
 
@@ -50,16 +48,16 @@ module.exports = {
       if (emailIsTaken) {
         return res.status(400).json({
           data: [],
-          error: "L'email est déjà utilisé"
+          error: "L'email est déjà utilisé",
         });
-      };
+      }
 
       if (password.length < 8) {
         return res.status(400).json({
           data: [],
-          error: "Password trop court : min 8 caractères"
+          error: 'Password trop court : min 8 caractères',
         });
-      };
+      }
 
       const user = new User({
         pseudo,
@@ -71,14 +69,12 @@ module.exports = {
 
       return res.status(200).json({
         data: user,
-        isCreateUserSuccess: true
+        isCreatedUserSuccess: true,
       });
-
     } catch (error) {
-      console.error(error);
-      return res.status(500).send({
+      return res.status(500).json({
         data: [],
-        error: "Désolé, une erreur est survenue, veuillez réessayer ultérieurement"
+        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
       });
     }
   },
