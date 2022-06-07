@@ -1,7 +1,13 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Smoked, Day } = require('../models');
+const {
+  User,
+  Smoked,
+  Day,
+  Month,
+  Year,
+} = require('../models');
 
 const generatedAccessToken = () => jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
 
@@ -18,6 +24,18 @@ module.exports = {
               {
                 model: Day,
                 association: 'day',
+                include: [
+                  {
+                    model: Month,
+                    association: 'month',
+                    include: [
+                      {
+                        model: Year,
+                        association: 'year',
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },
