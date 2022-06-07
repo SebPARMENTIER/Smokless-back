@@ -1,11 +1,13 @@
 // Environment variables
-require("dotenv").config();
+require('dotenv').config();
+
 const PORT = process.env.PORT || 5000;
 
-const express = require("express");
+const express = require('express');
+
 const app = express();
-const router = require("./app/routers");
-const cors = require("cors");
+const cors = require('cors');
+const router = require('./app/routers');
 
 // Allow access to DB
 app.use(cors());
@@ -18,5 +20,5 @@ app.use(router);
 
 // Server laucnh
 app.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
+  console.log(`Listening on ${PORT}`);
 });
