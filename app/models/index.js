@@ -5,7 +5,7 @@ const User = require('./user');
 const Year = require('./year');
 
 Day.belongsTo(Month, {
-  as: "day",
+  as: "month",
   foreignKey: "month_id"
 });
 
@@ -15,7 +15,7 @@ Month.hasMany(Day, {
 });
 
 Month.belongsTo(Year, {
-  as: "month",
+  as: "year",
   foreignKey: "year_id"
 });
 
@@ -25,22 +25,22 @@ Year.hasMany(Month, {
 });
 
 Smoked.belongsTo(Day, {
-  as: "smoked_day",
+  as: "day",
   foreignKey: "day_id"
 });
 
 Day.hasMany(Smoked, {
-  as: "somked_day",
+  as: "somked_days",
   foreignKey: "day_id"
 });
 
 Smoked.belongsTo(User, {
-  as: "smoked_user",
+  as: "user",
   foreignKey: "user_id"
 });
 
 User.hasMany(Smoked, {
-  as: "user",
+  as: "smoked_users",
   foreignKey: "user_id"
 });
 
