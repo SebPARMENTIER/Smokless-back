@@ -1,19 +1,19 @@
-const sequelize = require("../client");
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../client');
 
-class Month extends Model { };
+class Month extends Model { }
 
 Month.init(
   {
     month: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
   },
   {
     sequelize,
-    tableName: "month"
-  }
+    tableName: 'month',
+  },
 );
 
 module.exports = Month;

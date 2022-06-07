@@ -1,19 +1,19 @@
-const sequelize = require("../client");
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../client');
 
-class Day extends Model { };
+class Day extends Model { }
 
 Day.init(
   {
     day: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
   },
   {
     sequelize,
-    tableName: "day"
-  }
+    tableName: 'day',
+  },
 );
 
 module.exports = Day;

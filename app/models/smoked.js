@@ -1,19 +1,19 @@
-const sequelize = require("../client");
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../client');
 
-class Smoked extends Model { };
+class Smoked extends Model { }
 
 Smoked.init(
   {
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
   },
   {
     sequelize,
-    tableName: "smoked"
-  }
+    tableName: 'smoked',
+  },
 );
 
 module.exports = Smoked;

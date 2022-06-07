@@ -5,43 +5,43 @@ const User = require('./user');
 const Year = require('./year');
 
 Day.belongsTo(Month, {
-  as: "month",
-  foreignKey: "month_id"
+  as: 'month',
+  foreignKey: 'month_id',
 });
 
 Month.hasMany(Day, {
-  as: "days",
-  foreignKey: "month_id"
+  as: 'days',
+  foreignKey: 'month_id',
 });
 
 Month.belongsTo(Year, {
-  as: "year",
-  foreignKey: "year_id"
+  as: 'year',
+  foreignKey: 'year_id',
 });
 
 Year.hasMany(Month, {
-  as: "monthes",
-  foreignKey: "year_id"
+  as: 'monthes',
+  foreignKey: 'year_id',
 });
 
 Smoked.belongsTo(Day, {
-  as: "day",
-  foreignKey: "day_id"
+  as: 'day',
+  foreignKey: 'day_id',
 });
 
 Day.hasMany(Smoked, {
-  as: "somked_days",
-  foreignKey: "day_id"
+  as: 'somked_days',
+  foreignKey: 'day_id',
 });
 
 Smoked.belongsTo(User, {
-  as: "user",
-  foreignKey: "user_id"
+  as: 'user',
+  foreignKey: 'user_id',
 });
 
 User.hasMany(Smoked, {
-  as: "smoked_users",
-  foreignKey: "user_id"
+  as: 'smoked_users',
+  foreignKey: 'user_id',
 });
 
 module.exports = {
@@ -49,5 +49,5 @@ module.exports = {
   Month,
   Smoked,
   User,
-  Year
+  Year,
 };
