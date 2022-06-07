@@ -1,12 +1,13 @@
-const express = require("express");
+const express = require('express');
+
 const router = express.Router();
 
 const userController = require('../controllers/user');
 
 router.get('/', (_, res) => {
   res.json({
-      message: "API Smok'Less",
-      author: "PARMENTIER Sébastien"
+    message: "API Smok'Less",
+    author: 'PARMENTIER Sébastien',
   });
 });
 
