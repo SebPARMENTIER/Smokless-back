@@ -30,7 +30,7 @@ Smoked.belongsTo(Day, {
 });
 
 Day.hasMany(Smoked, {
-  as: 'somked_days',
+  as: 'smoked_days',
   foreignKey: 'day_id',
 });
 
@@ -40,7 +40,7 @@ Smoked.belongsTo(User, {
 });
 
 User.hasMany(Smoked, {
-  as: 'smoked_users',
+  as: 'consumption',
   foreignKey: 'user_id',
 });
 

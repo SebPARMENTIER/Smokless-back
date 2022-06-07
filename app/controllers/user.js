@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { User, Smoked, Day } = require('../models');
 
 const generatedAccessToken = () => jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
 
@@ -9,7 +9,20 @@ module.exports = {
   // eslint-disable-next-line consistent-return
   getAll: async (_, res) => {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({
+        include: [
+          {
+            model: Smoked,
+            association: 'consumption',
+            include: [
+              {
+                model: Day,
+                association: 'day',
+              },
+            ],
+          },
+        ],
+      });
       return res.status(200).json(users);
     } catch (error) {
       res.status(400).json({
