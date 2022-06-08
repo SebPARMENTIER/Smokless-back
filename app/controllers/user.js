@@ -20,18 +20,22 @@ module.exports = {
           {
             model: Smoked,
             association: 'consumption',
+            attributes: ['quantity'],
             include: [
               {
                 model: Day,
                 association: 'day',
+                attributes: ['day'],
                 include: [
                   {
                     model: Month,
                     association: 'month',
+                    attributes: ['month'],
                     include: [
                       {
                         model: Year,
                         association: 'year',
+                        attributes: ['year'],
                       },
                     ],
                   },
