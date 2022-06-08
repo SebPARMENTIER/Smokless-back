@@ -55,7 +55,7 @@ module.exports = {
   },
   signup: async (req, res) => {
     try {
-      const { pseudo, email, password } = req.body;
+      const { pseudo, email, password, average } = req.body;
 
       const pseudoIsTaken = await User.findOne({
         where: {
@@ -98,6 +98,7 @@ module.exports = {
         pseudo,
         email,
         password: bcrypt.hashSync(password, 7),
+        average,
       });
 
       await user.save();
