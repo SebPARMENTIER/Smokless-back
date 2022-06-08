@@ -17,6 +17,10 @@ User.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    average: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     sequelize,
