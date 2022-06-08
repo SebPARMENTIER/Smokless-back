@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "pseudo" TEXT NOT NULL,
   "email" TEXT NOT NULL,
   "password" TEXT NOT NULL,
+  "average" INT,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
