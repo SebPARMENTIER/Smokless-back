@@ -95,7 +95,7 @@ module.exports = {
       if (password.length < 8) {
         return res.status(400).json({
           data: [],
-          error: 'Password trop court : min 8 caractères',
+          error: 'Mot de passe trop court : min 8 caractères',
         });
       }
 
@@ -164,6 +164,60 @@ module.exports = {
     } catch (error) {
       console.error(error);
       return res.status(500).send({
+        data: [],
+        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+      });
+    }
+  },
+  updatePassword: async (req, res) => {
+    try {
+      const { id, password, newPassword } = req.body;
+
+      if (!password || !newPassword) {
+        return res.status(400).json({
+          data: [],
+          error: 'Ancien mot de passe ou nouveau mot de passe manquant',
+        });
+      }
+
+      if (newPassword.length < 8) {
+        return res.status(400).json({
+          data: [],
+          error: 'Mot de passe trop court : min 8 caractères',
+        });
+      }
+
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(404).json({
+          data: [],
+          error: 'Utilisateur non trouvé',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(
+        password,
+        user.password,
+      );
+
+      if (!isMatch) {
+        return res.status(401).json({
+          data: [],
+          error: 'Le mot de passe ne correspond pas',
+        });
+      }
+
+      await user.update({
+        password: bcrypt.hashSync(newPassword, 7),
+      });
+
+      return res.json({
+        data: [],
+        message: 'Mot de passe mis à jour',
+      });
+    } catch (error) {
+      return res.status(500).json({
         data: [],
         error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
       });
