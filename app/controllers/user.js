@@ -109,7 +109,7 @@ module.exports = {
       await user.save();
 
       return res.status(200).json({
-        data: user,
+        user,
         isCreatedUserSuccess: true,
       });
     } catch (error) {
@@ -169,6 +169,51 @@ module.exports = {
       });
     }
   },
+  updatePseudo: async (req, res) => {
+    try {
+      const { id, password, pseudo } = req.body;
+
+      if (!password || !pseudo) {
+        return res.status(400).json({
+          data: [],
+          error: 'Pseudo ou mot de passe manquant',
+        });
+      }
+
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(404).json({
+          data: [],
+          error: 'Utilisateur non trouvé',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(403).json({
+          data: [],
+          error: 'Le mot de passe ne correspond pas',
+        });
+      }
+
+      await user.update({
+        pseudo,
+      });
+
+      return res.status(200).json({
+        user,
+        message: 'Pseudo mis à jour',
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        data: [],
+        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+      });
+    }
+  },
   updatePassword: async (req, res) => {
     try {
       const { id, password, newPassword } = req.body;
@@ -202,7 +247,7 @@ module.exports = {
       );
 
       if (!isMatch) {
-        return res.status(401).json({
+        return res.status(403).json({
           data: [],
           error: 'Le mot de passe ne correspond pas',
         });
@@ -212,8 +257,8 @@ module.exports = {
         password: bcrypt.hashSync(newPassword, 7),
       });
 
-      return res.json({
-        data: [],
+      return res.status(200).json({
+        user,
         message: 'Mot de passe mis à jour',
       });
     } catch (error) {
