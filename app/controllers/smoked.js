@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 
 /* eslint-disable camelcase */
-const { User, Smoked, Day } = require('../models');
+const { Smoked } = require('../models');
 
 module.exports = {
   // eslint-disable-next-line consistent-return
