@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 /* eslint-disable camelcase */
 const { User, Smoked, Day } = require('../models');
 
@@ -19,6 +21,22 @@ module.exports = {
     try {
       // eslint-disable-next-line camelcase
       const { quantity, user_id, day_id } = req.body;
+
+      const consumptionExists = await Smoked.findOne({
+        where: {
+          [Op.and]: [
+            { user_id },
+            { day_id },
+          ],
+        },
+      });
+
+      if (consumptionExists) {
+        return res.status(400).json({
+          data: [],
+          error: 'Données déjà entrées pour ce jour et cet utilisateur. Si vous souhaitez modifier le nombre de cigarettes consummées, servez vous de la fonction modifier',
+        });
+      }
 
       const smoked = new Smoked({
         quantity,
