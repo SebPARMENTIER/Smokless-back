@@ -109,7 +109,6 @@ module.exports = {
       await user.save();
 
       return res.status(200).json({
-        user,
         isCreatedUserSuccess: true,
       });
     } catch (error) {
@@ -203,8 +202,7 @@ module.exports = {
       });
 
       return res.status(200).json({
-        user,
-        message: 'Pseudo mis à jour',
+        isPseudoUpdatedSuccess: true,
       });
     } catch (error) {
       console.error(error);
@@ -258,8 +256,7 @@ module.exports = {
       });
 
       return res.status(200).json({
-        user,
-        message: 'Mot de passe mis à jour',
+        isPasswordUpdatedSuccess: true,
       });
     } catch (error) {
       return res.status(500).json({
