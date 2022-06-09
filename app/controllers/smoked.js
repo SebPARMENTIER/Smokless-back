@@ -47,7 +47,9 @@ module.exports = {
 
       await smoked.save();
 
-      res.status(200).json(smoked);
+      res.status(200).json({
+        isConsumptionAddedSuccess: true,
+      });
     } catch (error) {
       return res.status(500).json({
         data: [],
