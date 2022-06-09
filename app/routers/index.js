@@ -41,6 +41,9 @@ router.post('/smoked', smokedController.addConsumption);
 
 router.use('*', authenticateToken);
 
+router.route('/user/:id(\\d+)')
+  .get(userController.getById);
+
 router.route('/user/pseudo/:id(\\d+)')
   .patch(userController.updatePseudo);
 

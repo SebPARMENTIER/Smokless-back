@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -12,10 +13,12 @@ const {
 const generatedAccessToken = () => jwt.sign({}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3h' });
 
 module.exports = {
-  // eslint-disable-next-line consistent-return
-  getAll: async (_, res) => {
+  getById: async (req, res) => {
     try {
-      const users = await User.findAll({
+      const { id } = req.params;
+
+      const user = await User.findByPk(id, {
+        attributes: ['id', 'pseudo', 'email', 'average'],
         include: [
           {
             model: Smoked,
@@ -44,6 +47,24 @@ module.exports = {
             ],
           },
         ],
+      });
+
+      if (!user) {
+        return res.status(404).json({
+          error: 'Utilisateur non trouvé',
+        });
+      }
+      return res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({
+        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+      });
+    }
+  },
+  getAll: async (_, res) => {
+    try {
+      const users = await User.findAll({
+        attributes: ['id', 'pseudo', 'email', 'average'],
       });
       return res.status(200).json(users);
     } catch (error) {
