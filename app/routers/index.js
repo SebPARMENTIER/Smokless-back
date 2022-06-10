@@ -44,10 +44,10 @@ router.use('*', authenticateToken);
 router.route('/user/:id(\\d+)')
   .get(userController.getById);
 
-router.route('/user/pseudo/:id(\\d+)')
+router.route('/user/pseudo')
   .patch(userController.updatePseudo);
 
-router.route('/user/password/:id(\\d+)')
+router.route('/user/password')
   .patch(userController.updatePassword);
 
 module.exports = router;
