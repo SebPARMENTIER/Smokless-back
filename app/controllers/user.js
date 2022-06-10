@@ -185,7 +185,7 @@ module.exports = {
       console.error(error);
       return res.status(500).send({
         data: [],
-        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+        error: error.message,
       });
     }
   },
@@ -226,10 +226,9 @@ module.exports = {
         isPseudoUpdatedSuccess: true,
       });
     } catch (error) {
-      console.error(error);
       return res.status(500).json({
         data: [],
-        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+        error: error.message,
       });
     }
   },
@@ -283,6 +282,49 @@ module.exports = {
       return res.status(500).json({
         data: [],
         error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+      });
+    }
+  },
+  updateAverage: async (req, res) => {
+    try {
+      const { id, password, average } = req.body;
+
+      if (!password || !average) {
+        return res.status(400).json({
+          data: [],
+          error: 'Moyenne ou mot de passe manquant',
+        });
+      }
+
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(404).json({
+          data: [],
+          error: 'Utilisateur non trouvé',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(403).json({
+          data: [],
+          error: 'Le mot de passe ne correspond pas',
+        });
+      }
+
+      await user.update({
+        average,
+      });
+
+      return res.status(200).json({
+        isAverageUpdatedSuccess: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
       });
     }
   },

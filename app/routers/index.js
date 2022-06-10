@@ -50,4 +50,7 @@ router.route('/user/pseudo')
 router.route('/user/password')
   .patch(userController.updatePassword);
 
+router.route('/user/average')
+  .patch(userController.updateAverage);
+
 module.exports = router;
