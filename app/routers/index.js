@@ -42,7 +42,8 @@ router.post('/smoked', smokedController.addConsumption);
 router.use('*', authenticateToken);
 
 router.route('/user/:id(\\d+)')
-  .get(userController.getById);
+  .get(userController.getById)
+  .delete(userController.deleteAccount);
 
 router.route('/user/pseudo')
   .patch(userController.updatePseudo);
