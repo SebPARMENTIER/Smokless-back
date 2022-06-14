@@ -29,15 +29,15 @@ router.get('/', (_, res) => {
   });
 });
 
-router.get('/user', userController.getAll);
+router.route('/user')
+  .get(userController.getAll)
+  .post(userController.signup);
 
-router.post('/user', userController.signup);
+router.route('/login')
+  .post(userController.login);
 
-router.post('/login', userController.login);
-
-router.get('/smoked', smokedController.getAll);
-
-router.post('/smoked', smokedController.addConsumption);
+router.route('/smoked')
+  .get(smokedController.getAll);
 
 router.use('*', authenticateToken);
 
@@ -53,5 +53,8 @@ router.route('/user/password')
 
 router.route('/user/average')
   .patch(userController.updateAverage);
+
+router.route('/smoked')
+  .post(smokedController.addConsumption);
 
 module.exports = router;
