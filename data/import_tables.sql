@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "pseudo" TEXT NOT NULL,
   "email" TEXT NOT NULL,
   "password" TEXT NOT NULL,
-  "average" INT,
+  "average" INT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "year" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "year" INT,
+  "year" INT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS "month" (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "day" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "day" INT,
+  "day" INT NOT NULL,
   "month_id" INT REFERENCES "month" ("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS "day" (
 CREATE TABLE IF NOT EXISTS "smoked" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "quantity" INT,
-  "user_id" INT REFERENCES "user" ("id"),
-  "day_id" INT REFERENCES "day" ("id"),
+  "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
+  "day_id" INT REFERENCES "day" ("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
