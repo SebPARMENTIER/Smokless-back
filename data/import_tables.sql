@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS "smoked" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "quantity" INT,
   "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
-  "day_id" INT REFERENCES "day" ("id") ON DELETE CASCADE,
+  "day_id" INT REFERENCES "day" ("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
