@@ -57,6 +57,7 @@ router.route('/smoked/:id(\\d+)')
   .get(smokedController.getById);
 
 router.route('/smoked')
-  .post(smokedController.addConsumption);
+  .post(smokedController.addConsumption)
+  .patch(smokedController.updateConsumption);
 
 module.exports = router;

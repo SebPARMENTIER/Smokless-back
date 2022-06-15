@@ -98,4 +98,30 @@ module.exports = {
       });
     }
   },
+  updateConsumption: async (req, res) => {
+    try {
+      const { id, quantity } = req.body;
+
+      const smoked = await Smoked.findByPk(id);
+
+      if (!smoked) {
+        return res.status(404).json({
+          error: 'Consommation non trouvée',
+        });
+      }
+
+      await smoked.update({
+        quantity,
+      });
+
+      return res.status(200).json({
+        isConsumptionUpdatedSuccess: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
+      });
+    }
+  },
 };
