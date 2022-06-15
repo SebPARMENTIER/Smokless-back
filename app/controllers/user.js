@@ -1,5 +1,3 @@
-/* eslint-disable quotes */
-/* eslint-disable consistent-return */
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');

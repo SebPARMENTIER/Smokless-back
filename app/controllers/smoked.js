@@ -1,10 +1,8 @@
 const { Op } = require('sequelize');
 
-/* eslint-disable camelcase */
 const { Smoked } = require('../models');
 
 module.exports = {
-  // eslint-disable-next-line consistent-return
   getAll: async (_, res) => {
     try {
       const smoked = await Smoked.findAll();
@@ -16,10 +14,8 @@ module.exports = {
       });
     }
   },
-  // eslint-disable-next-line consistent-return
   addConsumption: async (req, res) => {
     try {
-      // eslint-disable-next-line camelcase
       const { quantity, user_id, day_id } = req.body;
 
       const consumptionExists = await Smoked.findOne({
@@ -40,7 +36,6 @@ module.exports = {
 
       const smoked = new Smoked({
         quantity,
-        // eslint-disable-next-line camelcase
         user_id,
         day_id,
       });
