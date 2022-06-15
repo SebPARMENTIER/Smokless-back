@@ -4,7 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 const userController = require('../controllers/user');
-const smokedController = require('../controllers/smoked');
+const consumptionController = require('../controllers/consumption');
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -35,8 +35,8 @@ router.route('/user')
 router.route('/login')
   .post(userController.login);
 
-router.route('/smoked')
-  .get(smokedController.getAll);
+router.route('/consumption')
+  .get(consumptionController.getAll);
 
 router.use('*', authenticateToken);
 
@@ -53,12 +53,12 @@ router.route('/user/password')
 router.route('/user/average')
   .patch(userController.updateAverage);
 
-router.route('/smoked/:id(\\d+)')
-  .get(smokedController.getById)
-  .delete(smokedController.deleteConsumption);
+router.route('/consumption/:id(\\d+)')
+  .get(consumptionController.getById)
+  .delete(consumptionController.deleteConsumption);
 
-router.route('/smoked')
-  .post(smokedController.addConsumption)
-  .patch(smokedController.updateConsumption);
+router.route('/consumption')
+  .post(consumptionController.addConsumption)
+  .patch(consumptionController.updateConsumption);
 
 module.exports = router;

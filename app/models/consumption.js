@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../client');
 
-class Smoked extends Model { }
+class Consumption extends Model { }
 
-Smoked.init(
+Consumption.init(
   {
     quantity: {
       type: DataTypes.INTEGER,
@@ -12,8 +12,8 @@ Smoked.init(
   },
   {
     sequelize,
-    tableName: 'smoked',
+    tableName: 'consumption',
   },
 );
 
-module.exports = Smoked;
+module.exports = Consumption;

@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 
 const {
-  Smoked,
+  Consumption,
   Day,
   Month,
   Year,
@@ -13,7 +13,7 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const smoked = await Smoked.findByPk(id, {
+      const consumption = await Consumption.findByPk(id, {
         attributes: ['id', 'quantity'],
         include: [
           {
@@ -43,12 +43,12 @@ module.exports = {
         ],
       });
 
-      if (!smoked) {
+      if (!consumption) {
         return res.status(404).json({
           error: 'Consommation non trouvée',
         });
       }
-      return res.status(200).json(smoked);
+      return res.status(200).json(consumption);
     } catch (error) {
       res.status(500).json({
         error: error.message,
@@ -57,8 +57,8 @@ module.exports = {
   },
   getAll: async (_, res) => {
     try {
-      const smoked = await Smoked.findAll();
-      return res.status(200).json(smoked);
+      const consumption = await Consumption.findAll();
+      return res.status(200).json(consumption);
     } catch (error) {
       res.status(400).json({
         data: [],
@@ -70,7 +70,7 @@ module.exports = {
     try {
       const { quantity, user_id, day_id } = req.body;
 
-      const consumptionExists = await Smoked.findOne({
+      const consumptionExists = await Consumption.findOne({
         where: {
           [Op.and]: [
             { user_id },
@@ -86,13 +86,13 @@ module.exports = {
         });
       }
 
-      const smoked = new Smoked({
+      const consumption = new Consumption({
         quantity,
         user_id,
         day_id,
       });
 
-      await smoked.save();
+      await consumption.save();
 
       res.status(200).json({
         isConsumptionAddedSuccess: true,
@@ -108,15 +108,15 @@ module.exports = {
     try {
       const { id, quantity } = req.body;
 
-      const smoked = await Smoked.findByPk(id);
+      const consumption = await Consumption.findByPk(id);
 
-      if (!smoked) {
+      if (!consumption) {
         return res.status(404).json({
           error: 'Consommation non trouvée',
         });
       }
 
-      await smoked.update({
+      await consumption.update({
         quantity,
       });
 
@@ -134,15 +134,15 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      const smoked = await Smoked.findByPk(id);
+      const consumption = await Consumption.findByPk(id);
 
-      if (!smoked) {
+      if (!consumption) {
         return res.status(404).json({
           error: 'Consommation non trouvée',
         });
       }
 
-      await smoked.destroy();
+      await consumption.destroy();
 
       return res.status(200).json({
         isConsumptionDeletedSucces: true,

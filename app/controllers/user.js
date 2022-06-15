@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
   User,
-  Smoked,
+  Consumption,
   Day,
   Month,
   Year,
@@ -20,7 +20,7 @@ module.exports = {
         attributes: ['id', 'pseudo', 'email', 'average'],
         include: [
           {
-            model: Smoked,
+            model: Consumption,
             association: 'consumption',
             attributes: ['quantity'],
             include: [

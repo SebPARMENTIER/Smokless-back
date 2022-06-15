@@ -1,7 +1,7 @@
 BEGIN;
 
 DROP TABLE IF EXISTS "user",
-"smoked",
+"consumption",
 "day",
 "month",
 "year";
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS "day" (
 );
 
 -- -----------------------------------------------------
--- Table "smoked"
+-- Table "consumption"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "smoked" (
+CREATE TABLE IF NOT EXISTS "consumption" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "quantity" INT NOT NULL,
   "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
