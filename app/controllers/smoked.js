@@ -1,6 +1,12 @@
 const { Op } = require('sequelize');
 
-const { Smoked, Day, Month, Year, User } = require('../models');
+const {
+  Smoked,
+  Day,
+  Month,
+  Year,
+  User,
+} = require('../models');
 
 module.exports = {
   getById: async (req, res) => {
@@ -116,6 +122,30 @@ module.exports = {
 
       return res.status(200).json({
         isConsumptionUpdatedSuccess: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
+      });
+    }
+  },
+  deleteConsumption: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const smoked = await Smoked.findByPk(id);
+
+      if (!smoked) {
+        return res.status(404).json({
+          error: 'Consommation non trouvée',
+        });
+      }
+
+      await smoked.destroy();
+
+      return res.status(200).json({
+        isConsumptionDeletedSucces: true,
       });
     } catch (error) {
       return res.status(500).json({

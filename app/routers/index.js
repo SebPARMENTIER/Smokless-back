@@ -54,7 +54,8 @@ router.route('/user/average')
   .patch(userController.updateAverage);
 
 router.route('/smoked/:id(\\d+)')
-  .get(smokedController.getById);
+  .get(smokedController.getById)
+  .delete(smokedController.deleteConsumption);
 
 router.route('/smoked')
   .post(smokedController.addConsumption)
