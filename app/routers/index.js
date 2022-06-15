@@ -53,6 +53,9 @@ router.route('/user/password')
 router.route('/user/average')
   .patch(userController.updateAverage);
 
+router.route('/smoked/:id(\\d+)')
+  .get(smokedController.getById);
+
 router.route('/smoked')
   .post(smokedController.addConsumption);
 

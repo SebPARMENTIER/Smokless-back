@@ -1,8 +1,54 @@
 const { Op } = require('sequelize');
 
-const { Smoked } = require('../models');
+const { Smoked, Day, Month, Year, User } = require('../models');
 
 module.exports = {
+  getById: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const smoked = await Smoked.findByPk(id, {
+        attributes: ['id', 'quantity'],
+        include: [
+          {
+            model: Day,
+            association: 'day',
+            attributes: ['id', 'day'],
+            include: [
+              {
+                model: Month,
+                association: 'month',
+                attributes: ['month'],
+                include: [
+                  {
+                    model: Year,
+                    association: 'year',
+                    attributes: ['year'],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: User,
+            association: 'user',
+            attributes: ['id', 'pseudo', 'email', 'average'],
+          },
+        ],
+      });
+
+      if (!smoked) {
+        return res.status(404).json({
+          error: 'Consommation non trouvée',
+        });
+      }
+      return res.status(200).json(smoked);
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  },
   getAll: async (_, res) => {
     try {
       const smoked = await Smoked.findAll();
