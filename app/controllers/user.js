@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
@@ -53,10 +53,37 @@ module.exports = {
           error: 'Utilisateur non trouvé',
         });
       }
-      return res.status(200).json(user);
+      const total = await Consumption.findAll({
+        attributes: [
+          [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
+        ],
+        where: {
+          user_id: id,
+        },
+        include: [
+          {
+            model: Day,
+            association: 'day',
+            attributes: [],
+            //     include: [
+            //       {
+            //         model: Month,
+            //         association: 'month',
+            //         attributes: ['month'],
+            //         group: 'month.year_id',
+            //       },
+            //     ],
+          },
+        ],
+        group: 'day.month_id',
+      });
+      return res.status(200).json({
+        user,
+        total,
+      });
     } catch (error) {
       res.status(500).json({
-        error: 'Désolé, une erreur est survenue, veuillez réessayer ultérieurement',
+        error: error.message,
       });
     }
   },
