@@ -18,34 +18,6 @@ module.exports = {
 
       const user = await User.findByPk(id, {
         attributes: ['id', 'pseudo', 'email', 'average'],
-        include: [
-          {
-            model: Consumption,
-            association: 'consumption',
-            attributes: ['quantity'],
-            include: [
-              {
-                model: Day,
-                association: 'day',
-                attributes: ['day'],
-                include: [
-                  {
-                    model: Month,
-                    association: 'month',
-                    attributes: ['month'],
-                    include: [
-                      {
-                        model: Year,
-                        association: 'year',
-                        attributes: ['year'],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
       });
 
       if (!user) {
@@ -53,58 +25,41 @@ module.exports = {
           error: 'Utilisateur non trouvé',
         });
       }
-      // const total = await Consumption.findAll({
-      //   attributes: [
-      //     [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
-      //   ],
-      //   where: {
-      //     user_id: id,
-      //   },
-      //   include: [
-      //     {
-      //       model: Day,
-      //       association: 'day',
-      //       attributes: [],
-      //       //     include: [
-      //       //       {
-      //       //         model: Month,
-      //       //         association: 'month',
-      //       //         attributes: ['month'],
-      //       //         group: 'month.year_id',
-      //       //       },
-      //       //     ],
-      //     },
-      //   ],
-      //   group: 'day.month_id',
-      // });
-      const total = await Month.findAll({
-        attributes: ['month'],
+      const totalPerMonth = await Month.findAll({
+        raw: true,
+        attributes: ['month',
+          [Sequelize.col('year.year'), 'year'],
+          [Sequelize.fn('SUM', Sequelize.col('days.consumption_days.quantity')), 'total'],
+        ],
         include: [
+          {
+            model: Year,
+            association: 'year',
+            attributes: [],
+          },
           {
             model: Day,
             association: 'days',
-            attributes: ['day'],
-            // group: 'day.month_id',
+            attributes: [],
             include: [
               {
                 model: Consumption,
                 association: 'consumption_days',
-                attributes: ['quantity', 'user_id',
-                  // [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
+                attributes: [
                 ],
                 where: {
                   user_id: id,
                 },
-            //     // group: 'day.month_id',
               },
             ],
           },
         ],
-        // group: 'Month.id',
+        group: ['Month.id', 'year.year'],
+        order: ['id'],
       });
       return res.status(200).json({
         user,
-        total,
+        totalPerMonth,
       });
     } catch (error) {
       res.status(500).json({
