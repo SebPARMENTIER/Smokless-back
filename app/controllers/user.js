@@ -53,29 +53,54 @@ module.exports = {
           error: 'Utilisateur non trouvé',
         });
       }
-      const total = await Consumption.findAll({
-        attributes: [
-          [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
-        ],
-        where: {
-          user_id: id,
-        },
+      // const total = await Consumption.findAll({
+      //   attributes: [
+      //     [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
+      //   ],
+      //   where: {
+      //     user_id: id,
+      //   },
+      //   include: [
+      //     {
+      //       model: Day,
+      //       association: 'day',
+      //       attributes: [],
+      //       //     include: [
+      //       //       {
+      //       //         model: Month,
+      //       //         association: 'month',
+      //       //         attributes: ['month'],
+      //       //         group: 'month.year_id',
+      //       //       },
+      //       //     ],
+      //     },
+      //   ],
+      //   group: 'day.month_id',
+      // });
+      const total = await Month.findAll({
+        attributes: ['month'],
         include: [
           {
             model: Day,
-            association: 'day',
-            attributes: [],
-            //     include: [
-            //       {
-            //         model: Month,
-            //         association: 'month',
-            //         attributes: ['month'],
-            //         group: 'month.year_id',
-            //       },
-            //     ],
+            association: 'days',
+            attributes: ['day'],
+            // group: 'day.month_id',
+            include: [
+              {
+                model: Consumption,
+                association: 'consumption_days',
+                attributes: ['quantity', 'user_id',
+                  // [Sequelize.fn('SUM', Sequelize.col('quantity')), 'mois'],
+                ],
+                where: {
+                  user_id: id,
+                },
+            //     // group: 'day.month_id',
+              },
+            ],
           },
         ],
-        group: 'day.month_id',
+        // group: 'Month.id',
       });
       return res.status(200).json({
         user,
