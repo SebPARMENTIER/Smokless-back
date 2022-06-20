@@ -25,7 +25,8 @@ module.exports = {
           error: 'Utilisateur non trouvé',
         });
       }
-      const totalPerMonth = await Month.findAll({
+
+      const consumptionPerMonth = await Month.findAll({
         raw: true,
         attributes: ['month',
           [Sequelize.col('year.year'), 'year'],
@@ -45,8 +46,7 @@ module.exports = {
               {
                 model: Consumption,
                 association: 'consumption_days',
-                attributes: [
-                ],
+                attributes: [],
                 where: {
                   user_id: id,
                 },
@@ -57,9 +57,43 @@ module.exports = {
         group: ['Month.id', 'year.year'],
         order: ['id'],
       });
+
+      const consumptionPerYear = await Year.findAll({
+        raw: true,
+        attributes: ['year',
+          [Sequelize.fn('SUM', Sequelize.col('monthes.days.consumption_days.quantity')), 'total'],
+        ],
+        include: [
+          {
+            model: Month,
+            association: 'monthes',
+            attributes: [],
+            include: [
+              {
+                model: Day,
+                association: 'days',
+                attributes: [],
+                include: [
+                  {
+                    model: Consumption,
+                    association: 'consumption_days',
+                    attributes: [],
+                    where: {
+                      user_id: id,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        group: ['Year.id'],
+        order: ['id'],
+      });
       return res.status(200).json({
         user,
-        totalPerMonth,
+        consumptionPerMonth,
+        consumptionPerYear,
       });
     } catch (error) {
       res.status(500).json({
