@@ -26,7 +26,7 @@ module.exports = {
         });
       }
 
-      const consumptionPerMonth = await Month.findAll({
+      const allConsumptionPerMonth = await Month.findAll({
         raw: true,
         attributes: ['month',
           [Sequelize.col('year.year'), 'year'],
@@ -58,7 +58,7 @@ module.exports = {
         order: ['id'],
       });
 
-      const consumptionPerYear = await Year.findAll({
+      const allConsumptionPerYear = await Year.findAll({
         raw: true,
         attributes: ['year',
           [Sequelize.fn('SUM', Sequelize.col('monthes.days.consumption_days.quantity')), 'total'],
@@ -90,6 +90,9 @@ module.exports = {
         group: ['Year.id'],
         order: ['id'],
       });
+
+      const consumptionPerMonth = allConsumptionPerMonth.filter((c) => c.total != null);
+      const consumptionPerYear = allConsumptionPerYear.filter((c) => c.total != null);
       return res.status(200).json({
         user,
         consumptionPerMonth,
