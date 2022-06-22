@@ -91,12 +91,12 @@ module.exports = {
         order: ['id'],
       });
 
-      const consumptionPerMonth = allConsumptionPerMonth.filter((c) => c.total != null);
-      const consumptionPerYear = allConsumptionPerYear.filter((c) => c.total != null);
+      const monthlyConsumption = allConsumptionPerMonth.filter((c) => c.total != null);
+      const annualConsumption = allConsumptionPerYear.filter((c) => c.total != null);
       return res.status(200).json({
         user,
-        consumptionPerMonth,
-        consumptionPerYear,
+        monthlyConsumption,
+        annualConsumption,
       });
     } catch (error) {
       res.status(500).json({
