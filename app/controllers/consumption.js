@@ -98,17 +98,6 @@ module.exports = {
       });
     }
   },
-  getAll: async (_, res) => {
-    try {
-      const consumption = await Consumption.findAll();
-      return res.status(200).json(consumption);
-    } catch (error) {
-      res.status(400).json({
-        data: [],
-        error: error.message,
-      });
-    }
-  },
   addConsumption: async (req, res) => {
     try {
       const { quantity, user_id, day_id } = req.body;

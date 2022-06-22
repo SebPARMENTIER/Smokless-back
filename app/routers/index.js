@@ -35,9 +35,6 @@ router.route('/user')
 router.route('/login')
   .post(userController.login);
 
-// router.route('/consumption')
-//   .get(consumptionController.getAll);
-
 router.use('*', authenticateToken);
 
 router.route('/user/:id(\\d+)')
