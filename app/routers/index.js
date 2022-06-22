@@ -35,8 +35,8 @@ router.route('/user')
 router.route('/login')
   .post(userController.login);
 
-router.route('/consumption')
-  .get(consumptionController.getAll);
+// router.route('/consumption')
+//   .get(consumptionController.getAll);
 
 router.use('*', authenticateToken);
 
@@ -58,6 +58,7 @@ router.route('/consumption/:id(\\d+)')
   .delete(consumptionController.deleteConsumption);
 
 router.route('/consumption')
+  .get(consumptionController.getAllConsumptionByUser)
   .post(consumptionController.addConsumption)
   .patch(consumptionController.updateConsumption);
 

@@ -55,6 +55,49 @@ module.exports = {
       });
     }
   },
+  getAllConsumptionByUser: async (req, res) => {
+    try {
+      const { id } = req.body;
+
+      const user = await User.findByPk(id, {
+        attributes: ['id', 'pseudo', 'email', 'average'],
+        include: [
+          {
+            model: Consumption,
+            association: 'consumption',
+            attributes: ['id', 'quantity'],
+            include: [
+              {
+                model: Day,
+                association: 'day',
+                attributes: ['day'],
+                include: [
+                  {
+                    model: Month,
+                    association: 'month',
+                    attributes: ['month'],
+                    include: [
+                      {
+                        model: Year,
+                        association: 'year',
+                        attributes: ['year'],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      return res.status(200).json(user);
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
+      });
+    }
+  },
   getAll: async (_, res) => {
     try {
       const consumption = await Consumption.findAll();
