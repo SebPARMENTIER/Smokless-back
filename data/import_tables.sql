@@ -30,6 +30,49 @@ CREATE TABLE IF NOT EXISTS "friend" (
 );
 
 -- -----------------------------------------------------
+-- Table "general_chat"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "general_chat" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "subject" TEXT NOT NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+-- -----------------------------------------------------
+-- Table "private_chat"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "private_chat" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+-- -----------------------------------------------------
+-- Table "general_message"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "general_message" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "message" TEXT NOT NULL,
+  "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
+  "general_chat_id" INT REFERENCES "general_chat" ("id") ON DELETE CASCADE,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+-- -----------------------------------------------------
+-- Table "private_message"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "private_message" (
+  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "message" TEXT NOT NULL,
+  "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
+  "private_chat_id" INT REFERENCES "private_chat" ("id") ON DELETE CASCADE,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMPTZ
+);
+
+-- -----------------------------------------------------
 -- Table "year"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "year" (
