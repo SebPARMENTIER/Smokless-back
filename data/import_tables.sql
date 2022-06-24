@@ -20,16 +20,6 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 -- -----------------------------------------------------
--- Table "friend"
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "friend" (
-  "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
-  "friend_user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
--- -----------------------------------------------------
 -- Table "general_chat"
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "general_chat" (
