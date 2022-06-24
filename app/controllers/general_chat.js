@@ -1,3 +1,4 @@
+const { Op, Sequelize } = require('sequelize');
 const {
   General_chat,
   General_message,
@@ -7,21 +8,29 @@ const {
 module.exports = {
   getById: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { general_chat_id } = req.body;
 
-      const chat = await General_chat.findByPk(id, {
-        attributes: ['id', 'subject'],
-        include: {
-          model: General_message,
-          association: 'general_chat',
-          attributes: ['id', 'message'],
-          order: ['id'],
-          include: {
+      const chat = await General_message.findAll({
+        attributes: ['id',
+          [Sequelize.col('general_chat.subject'), 'subject'],
+          'message',
+        ],
+        where: {
+          general_chat_id,
+        },
+        include: [
+          {
+            model: General_chat,
+            association: 'general_chat',
+            attributes: ['id', 'subject'],
+            // order: ['id'],
+          },
+          {
             model: User,
-            association: 'user_generel_message',
+            association: 'user_general_message',
             attributes: ['pseudo'],
           },
-        },
+        ],
       });
 
       if (!chat) {
@@ -45,6 +54,20 @@ module.exports = {
       if (!subject) {
         return res.status(400).json({
           error: 'Vous devez saisir un sujet',
+        });
+      }
+
+      const subjectIsTaken = await General_chat.findOne({
+        where: {
+          subject: {
+            [Op.like]: subject,
+          },
+        },
+      });
+
+      if (subjectIsTaken) {
+        return res.status(400).json({
+          error: 'Le sujet existe déjà',
         });
       }
 

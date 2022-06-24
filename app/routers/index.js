@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 
 const userController = require('../controllers/user');
 const consumptionController = require('../controllers/consumption');
+const general_chat = require('../controllers/general_chat');
+const general_message = require('../controllers/general_message');
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -58,5 +60,12 @@ router.route('/consumption')
   .get(consumptionController.getAllConsumptionByUser)
   .post(consumptionController.addConsumption)
   .patch(consumptionController.updateConsumption);
+
+router.route('/chat')
+  .get(general_chat.getById)
+  .post(general_chat.createChat);
+
+router.route('/message')
+  .post(general_message.createMessage);
 
 module.exports = router;
