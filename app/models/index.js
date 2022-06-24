@@ -89,9 +89,13 @@ User.hasMany(Consumption, {
 });
 
 module.exports = {
-  Day,
-  Month,
   Consumption,
+  Day,
+  General_chat,
+  General_message,
+  Month,
+  Private_chat,
+  Private_message,
   User,
   Year,
 };
