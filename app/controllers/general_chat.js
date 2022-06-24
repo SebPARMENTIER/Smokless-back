@@ -38,4 +38,28 @@ module.exports = {
       });
     }
   },
+  createChat: async (req, res) => {
+    try {
+      const { subject } = req.body;
+
+      if (!subject) {
+        return res.status(400).json({
+          error: 'Vous devez saisir un sujet',
+        });
+      }
+
+      const general_chat = new General_chat({ subject });
+
+      general_chat.save();
+
+      return res.status(200).json({
+        isCreatedGeneralChatSuccess: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
+      });
+    }
+  },
 };
