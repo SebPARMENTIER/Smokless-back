@@ -1,10 +1,14 @@
 BEGIN;
 
 DROP TABLE IF EXISTS "user",
-"consumption",
-"day",
+"general_chat",
+"private_chat",
+"general_message",
+"private_message",
+"year",
 "month",
-"year";
+"day",
+"consumption";
 
 -- -----------------------------------------------------
 -- Table "user"
@@ -34,6 +38,7 @@ CREATE TABLE IF NOT EXISTS "general_chat" (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS "private_chat" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "subject" TEXT DEFAULT 'Message Privé',
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
