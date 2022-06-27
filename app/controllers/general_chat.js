@@ -10,25 +10,24 @@ module.exports = {
     try {
       const { general_chat_id } = req.body;
 
+      const subject = await General_chat.findByPk(general_chat_id, {
+        attributes: ['subject'],
+      });
+
       const chat = await General_message.findAll({
         attributes: ['id',
-          [Sequelize.col('general_chat.subject'), 'subject'],
-          'message',
-        ],
+          [Sequelize.col('user_general_message.pseudo'), 'pseudo'],
+          'message'],
         where: {
           general_chat_id,
         },
+        order: ['id'],
+        raw: true,
         include: [
-          {
-            model: General_chat,
-            association: 'general_chat',
-            attributes: ['id', 'subject'],
-            // order: ['id'],
-          },
           {
             model: User,
             association: 'user_general_message',
-            attributes: ['pseudo'],
+            attributes: [],
           },
         ],
       });
@@ -39,7 +38,10 @@ module.exports = {
         });
       }
 
-      return res.status(200).json(chat);
+      return res.status(200).json({
+        subject,
+        chat,
+      });
     } catch (error) {
       return res.status(500).json({
         data: [],
