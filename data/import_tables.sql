@@ -1,10 +1,8 @@
 BEGIN;
 
 DROP TABLE IF EXISTS "user",
-"general_chat",
-"private_chat",
-"general_message",
-"private_message",
+"chat",
+"message",
 "year",
 "month",
 "day",
@@ -24,9 +22,9 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 
 -- -----------------------------------------------------
--- Table "general_chat"
+-- Table "chat"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "general_chat" (
+CREATE TABLE IF NOT EXISTS "chat" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "subject" TEXT NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -34,35 +32,13 @@ CREATE TABLE IF NOT EXISTS "general_chat" (
 );
 
 -- -----------------------------------------------------
--- Table "private_chat"
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "private_chat" (
-  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "subject" TEXT DEFAULT 'Message Privé',
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
--- -----------------------------------------------------
 -- Table "general_message"
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "general_message" (
+CREATE TABLE IF NOT EXISTS "message" (
   "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "message" TEXT NOT NULL,
   "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
-  "general_chat_id" INT REFERENCES "general_chat" ("id") ON DELETE CASCADE,
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
-  "updated_at" TIMESTAMPTZ
-);
-
--- -----------------------------------------------------
--- Table "private_message"
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS "private_message" (
-  "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "message" TEXT NOT NULL,
-  "user_id" INT REFERENCES "user" ("id") ON DELETE CASCADE,
-  "private_chat_id" INT REFERENCES "private_chat" ("id") ON DELETE CASCADE,
+  "chat_id" INT REFERENCES "chat" ("id") ON DELETE CASCADE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );
