@@ -1,32 +1,32 @@
 const { Op, Sequelize } = require('sequelize');
 const {
-  General_chat,
-  General_message,
+  Chat,
+  Message,
   User,
 } = require('../models');
 
 module.exports = {
   getById: async (req, res) => {
     try {
-      const { general_chat_id } = req.body;
+      const { chat_id } = req.body;
 
-      const subject = await General_chat.findByPk(general_chat_id, {
+      const subject = await Chat.findByPk(chat_id, {
         attributes: ['subject'],
       });
 
-      const chat = await General_message.findAll({
+      const chat = await Message.findAll({
         attributes: ['id',
-          [Sequelize.col('user_general_message.pseudo'), 'pseudo'],
+          [Sequelize.col('user_message.pseudo'), 'pseudo'],
           'message'],
         where: {
-          general_chat_id,
+          chat_id,
         },
         order: ['id'],
         raw: true,
         include: [
           {
             model: User,
-            association: 'user_general_message',
+            association: 'user_message',
             attributes: [],
           },
         ],
@@ -59,7 +59,7 @@ module.exports = {
         });
       }
 
-      const subjectIsTaken = await General_chat.findOne({
+      const subjectIsTaken = await Chat.findOne({
         where: {
           subject: {
             [Op.like]: subject,
@@ -73,12 +73,12 @@ module.exports = {
         });
       }
 
-      const general_chat = new General_chat({ subject });
+      const chat = new Chat({ subject });
 
-      general_chat.save();
+      chat.save();
 
       return res.status(200).json({
-        isCreatedGeneralChatSuccess: true,
+        isCreatedChatSuccess: true,
       });
     } catch (error) {
       return res.status(500).json({
