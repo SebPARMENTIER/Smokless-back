@@ -7,22 +7,22 @@ const User = require('./user');
 const Year = require('./year');
 
 Message.belongsTo(Chat, {
-  as: 'general_chat',
-  foreignKey: 'general_chat_id',
+  as: 'chat',
+  foreignKey: 'chat_id',
 });
 
 Chat.hasMany(Message, {
-  as: 'general_messages',
-  foreignKey: 'general_chat_id',
+  as: 'messages',
+  foreignKey: 'chat_id',
 });
 
 Message.belongsTo(User, {
-  as: 'user_general_message',
+  as: 'user_message',
   foreignKey: 'user_id',
 });
 
 User.hasMany(Message, {
-  as: 'user_general_messages',
+  as: 'user_messages',
   foreignKey: 'user_id',
 });
 
