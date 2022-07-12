@@ -8,6 +8,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const sanitizer = require('sanitizer');
+const session = require('express-session');
 const router = require('./app/routers');
 
 // Allow access to DB
@@ -23,6 +24,13 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Session
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: process.env.SESSION_SECRET,
+}));
 
 // Routing
 app.use(router);

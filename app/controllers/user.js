@@ -225,12 +225,20 @@ module.exports = {
         });
       }
 
-      const userData = user.toJSON();
+      const allUserData = user.toJSON();
+      // Keep user datas without password
+      const userData = { ...(delete allUserData.password && allUserData) };
+
       const accessToken = generatedAccessToken();
+
+      // Put user into session without password
+      delete user.dataValues.password;
+      delete user._previousDataValues.password;
+      req.session.user = user;
 
       return res.status(200).json({
         isLoggedUserSuccess: true,
-        ...(delete userData.password && userData),
+        userData,
         accessToken,
       });
     } catch (error) {
