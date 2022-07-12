@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../client');
 
-class General_message extends Model { }
+class Message extends Model { }
 
-General_message.init(
+Message.init(
   {
     message: {
       type: DataTypes.TEXT,
@@ -12,8 +12,8 @@ General_message.init(
   },
   {
     sequelize,
-    tableName: 'general_message',
+    tableName: 'message',
   },
 );
 
-module.exports = General_message;
+module.exports = Message;
