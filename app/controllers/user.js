@@ -220,8 +220,11 @@ module.exports = {
       const userData = user.toJSON();
       const accessToken = generatedAccessToken();
 
+      console.log(userData);
+
       return res.status(200).json({
-        ...userData,
+        isLoggedUserSuccess: true,
+        ...(delete userData.password && userData),
         accessToken,
       });
     } catch (error) {
