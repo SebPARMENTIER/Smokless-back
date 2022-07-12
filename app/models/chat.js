@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../client');
 
-class General_chat extends Model { }
+class Chat extends Model { }
 
-General_chat.init(
+Chat.init(
   {
     subject: {
       type: DataTypes.TEXT,
@@ -12,8 +12,8 @@ General_chat.init(
   },
   {
     sequelize,
-    tableName: 'general_chat',
+    tableName: 'chat',
   },
 );
 
-module.exports = General_chat;
+module.exports = Chat;
