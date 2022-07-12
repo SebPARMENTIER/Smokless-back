@@ -1,4 +1,5 @@
 const { Op, Sequelize } = require('sequelize');
+const emailValidator = require('email-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {
@@ -163,6 +164,13 @@ module.exports = {
         });
       }
 
+      if (!emailValidator.validate(req.body.email)) {
+        return res.status(400).json({
+          data: [],
+          error: 'Email non valide',
+        });
+      }
+
       const user = new User({
         pseudo,
         email,
@@ -219,8 +227,6 @@ module.exports = {
 
       const userData = user.toJSON();
       const accessToken = generatedAccessToken();
-
-      console.log(userData);
 
       return res.status(200).json({
         isLoggedUserSuccess: true,
