@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "email" TEXT NOT NULL,
   "password" TEXT NOT NULL,
   "average" INT NOT NULL,
+  "price" DECIMAL(4, 2) NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
   "updated_at" TIMESTAMPTZ
 );

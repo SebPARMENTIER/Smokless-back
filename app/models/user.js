@@ -21,6 +21,10 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    price: {
+      type: DataTypes.DECIMAL(4, 2),
+      allowNull: false,
+    },
   },
   {
     sequelize,

@@ -125,6 +125,7 @@ module.exports = {
         email,
         password,
         average,
+        price,
       } = req.body;
 
       const pseudoIsTaken = await User.findOne({
@@ -176,6 +177,7 @@ module.exports = {
         email,
         password: bcrypt.hashSync(password, 7),
         average,
+        price,
       });
 
       await user.save();
