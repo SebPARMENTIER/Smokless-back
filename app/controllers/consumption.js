@@ -38,7 +38,7 @@ module.exports = {
           {
             model: User,
             association: 'user',
-            attributes: ['id', 'pseudo', 'email', 'average'],
+            attributes: ['id', 'pseudo', 'email', 'average', 'price'],
           },
         ],
       });
