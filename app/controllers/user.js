@@ -108,7 +108,7 @@ module.exports = {
   getAll: async (_, res) => {
     try {
       const users = await User.findAll({
-        attributes: ['id', 'pseudo', 'email', 'average'],
+        attributes: ['id', 'pseudo', 'email', 'average', 'price'],
       });
       return res.status(200).json(users);
     } catch (error) {
