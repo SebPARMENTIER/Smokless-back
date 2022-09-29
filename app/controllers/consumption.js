@@ -60,7 +60,7 @@ module.exports = {
       const { id } = req.body;
 
       const user = await User.findByPk(id, {
-        attributes: ['id', 'pseudo', 'email', 'average'],
+        attributes: ['id', 'pseudo', 'email', 'average', 'price'],
         include: [
           {
             model: Consumption,
