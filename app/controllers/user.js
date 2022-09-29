@@ -390,6 +390,49 @@ module.exports = {
       });
     }
   },
+  updatePrice: async (req, res) => {
+    try {
+      const { id, password, price } = req.body;
+
+      if (!password || !price) {
+        return res.status(400).json({
+          data: [],
+          error: 'Prix ou mot de passe manquant',
+        });
+      }
+
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        return res.status(404).json({
+          data: [],
+          error: 'Utilisateur non trouvé',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(403).json({
+          data: [],
+          error: 'Le mot de passe ne correspond pas',
+        });
+      }
+
+      await user.update({
+        price,
+      });
+
+      return res.status(200).json({
+        isPriceUpdatedSuccess: true,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        data: [],
+        error: error.message,
+      });
+    }
+  },
   deleteAccount: async (req, res) => {
     try {
       const { id } = req.params;

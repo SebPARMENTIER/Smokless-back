@@ -52,6 +52,9 @@ router.route('/user/password')
 router.route('/user/average')
   .patch(userController.updateAverage);
 
+router.route('/user/price')
+  .patch(userController.updatePrice);
+
 router.route('/consumption/:id(\\d+)')
   .get(consumptionController.getById)
   .delete(consumptionController.deleteConsumption);
