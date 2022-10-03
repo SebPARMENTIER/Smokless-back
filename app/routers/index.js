@@ -31,7 +31,9 @@ router.get('/', (_, res) => {
 });
 
 router.route('/user')
-  .get(userController.getAll)
+  .get(userController.getAll);
+
+router.route('/signup')
   .post(userController.signup);
 
 router.route('/login')
