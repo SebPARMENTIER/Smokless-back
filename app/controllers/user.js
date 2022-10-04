@@ -124,6 +124,7 @@ module.exports = {
         pseudo,
         email,
         password,
+        passwordConfirm,
         average,
         price,
       } = req.body;
@@ -138,7 +139,6 @@ module.exports = {
 
       if (pseudoIsTaken) {
         return res.status(400).json({
-          data: [],
           error: 'Le pseudo est déjà utilisé',
         });
       }
@@ -153,22 +153,43 @@ module.exports = {
 
       if (emailIsTaken) {
         return res.status(400).json({
-          data: [],
           error: "L'email est déjà utilisé",
         });
       }
 
-      if (password.length < 8) {
+      const passwordOk = password.match(/[0-9]/g)
+        && password.match(/[A-Z]/g)
+        && password.match(/[a-z]/g)
+        && password.match(/[^a-zA-Z\d]/g)
+        && password.length >= 10;
+
+      if (!passwordOk) {
         return res.status(400).json({
-          data: [],
-          error: 'Mot de passe trop court : min 8 caractères',
+          error: 'Mot de passe non conforme',
+        });
+      }
+
+      if (password !== passwordConfirm) {
+        return res.status(400).json({
+          error: 'Mot de passe non identique',
         });
       }
 
       if (!emailValidator.validate(req.body.email)) {
         return res.status(400).json({
-          data: [],
           error: 'Email non valide',
+        });
+      }
+
+      if (average === 0 || average === '0') {
+        return res.status(400).json({
+          error: 'Veuillez saisir votre consommation moyenne',
+        });
+      }
+
+      if (price === 0 || price === '0') {
+        return res.status(400).json({
+          error: 'Veuillez saisir le prix d\'un paquet de cigarettes',
         });
       }
 
@@ -184,6 +205,7 @@ module.exports = {
 
       return res.status(200).json({
         isCreatedUserSuccess: true,
+        successMessage: 'Compte crée avec succès, veuillez vous connecter',
       });
     } catch (error) {
       return res.status(500).json({
