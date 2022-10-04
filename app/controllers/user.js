@@ -181,13 +181,13 @@ module.exports = {
         });
       }
 
-      if (average === 0 || average === '0') {
+      if (average <= 0) {
         return res.status(400).json({
           error: 'Veuillez saisir votre consommation moyenne',
         });
       }
 
-      if (price === 0 || price === '0') {
+      if (Number(price) <= 0) {
         return res.status(400).json({
           error: 'Veuillez saisir le prix d\'un paquet de cigarettes',
         });
