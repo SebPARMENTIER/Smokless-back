@@ -129,6 +129,12 @@ module.exports = {
         price,
       } = req.body;
 
+      if (pseudo === '') {
+        return res.status(400).json({
+          error: 'Veuillez saisir un pseudo',
+        });
+      }
+
       const pseudoIsTaken = await User.findOne({
         where: {
           pseudo: {
