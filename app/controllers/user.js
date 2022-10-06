@@ -210,8 +210,8 @@ module.exports = {
       await user.save();
 
       return res.status(200).json({
-        isCreatedUserSuccess: true,
-        successMessage: 'Compte crée avec succès, veuillez vous connecter',
+        isSignupUserSuccess: true,
+        successSignupMessage: 'Compte crée avec succès, veuillez vous connecter',
       });
     } catch (error) {
       return res.status(500).json({
