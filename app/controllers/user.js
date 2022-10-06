@@ -226,7 +226,6 @@ module.exports = {
 
       if (!email || !password) {
         return res.status(400).json({
-          data: [],
           error: 'Vous devez entrer un email et un mot de passe',
         });
       }
@@ -241,7 +240,6 @@ module.exports = {
 
       if (!user) {
         return res.status(404).json({
-          data: [],
           error: "L'email renseigné n'existe pas",
         });
       }
@@ -250,7 +248,6 @@ module.exports = {
 
       if (!passwordIsMatch) {
         return res.status(400).json({
-          data: [],
           error: 'Le mot de passe ne correspond pas',
         });
       }
