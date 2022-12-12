@@ -311,6 +311,7 @@ module.exports = {
 
       return res.status(200).json({
         isPseudoUpdatedSuccess: true,
+        successUpdateMessage: 'Pseudo mis à jour avec succès',
       });
     } catch (error) {
       return res.status(500).json({
