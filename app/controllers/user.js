@@ -322,7 +322,12 @@ module.exports = {
   },
   updatePassword: async (req, res) => {
     try {
-      const { id, password, newPassword } = req.body;
+      const {
+        id,
+        password,
+        newPassword,
+        newPasswordConfirm,
+      } = req.body;
 
       if (!password || !newPassword) {
         return res.status(400).json({
@@ -331,10 +336,21 @@ module.exports = {
         });
       }
 
-      if (newPassword.length < 8) {
+      const passwordOk = newPassword.match(/[0-9]/g)
+        && newPassword.match(/[A-Z]/g)
+        && newPassword.match(/[a-z]/g)
+        && newPassword.match(/[^a-zA-Z\d]/g)
+        && newPassword.length >= 10;
+
+      if (!passwordOk) {
         return res.status(400).json({
-          data: [],
-          error: 'Mot de passe trop court : min 8 caractères',
+          error: 'Nouveau mot de passe non conforme',
+        });
+      }
+
+      if (newPassword !== newPasswordConfirm) {
+        return res.status(400).json({
+          error: 'Nouveau mot de passe non identique',
         });
       }
 
@@ -355,7 +371,7 @@ module.exports = {
       if (!isMatch) {
         return res.status(403).json({
           data: [],
-          error: 'Le mot de passe ne correspond pas',
+          error: 'Le mot de passe actuel ne correspond pas',
         });
       }
 
@@ -365,6 +381,7 @@ module.exports = {
 
       return res.status(200).json({
         isPasswordUpdatedSuccess: true,
+        successUpdateMessage: 'Mot de passe mis à jour avec succès',
       });
     } catch (error) {
       return res.status(500).json({
