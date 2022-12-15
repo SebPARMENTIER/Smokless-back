@@ -512,6 +512,7 @@ module.exports = {
 
       return res.status(200).json({
         isUserAccountDeletedSuccess: true,
+        successDeleteAccountMessage: 'Compte supprimé avec succès',
       });
     } catch (error) {
       return res.status(500).json({
